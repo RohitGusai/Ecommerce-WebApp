@@ -1,0 +1,49 @@
+
+<h2 class="text-3xl font-bold mb-6">My Orders</h2>
+
+@for (order of orders; track $index) {
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+  <table class="w-full border-collapse">
+    <div class="flex justify-between items-center border-b pb-3">
+      <h3 class="font-medium text-2xl">UserID : {{order.userId}}</h3>
+      <h3 class="font-medium">OrderID : {{order._id}}</h3>
+      <h3 class="font-bold">Date :{{ order.date| date:'medium' }}</h3>
+
+        <mat-button-toggle-group name="fontStyle" [(value)]="order.status" aria-label="Font Style" (change)="statusChange($event, order)">
+          <mat-button-toggle value="Dispatched">Dispatched</mat-button-toggle>
+          <mat-button-toggle value="Shipped">Shipped</mat-button-toggle>
+          <mat-button-toggle value="Delivered">Delivered</mat-button-toggle>
+          <mat-button-toggle value="In Progress">In Progress</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+
+      <tbody>
+        @for (item of order.address.item; track $index) {
+
+          <!-- Sample Cart Item -->
+           <!-- @for (item of cart; track $index) { -->
+          <tr class="border-b">
+              <td class="flex items-center gap-3 p-3">
+                  <img [src]="item.product.images[0]" class="w-16 h-16 object-cover rounded-lg">
+                  <span class="text-gray-700 font-medium">{{item.product.name}}</span>
+              </td>
+              <td class="text-center p-3">
+
+
+              <span class="text-lg font-semibold">{{ item.quantity }}</span>
+
+
+              </td>
+              <td class="text-center p-3 text-gray-700">{{item.product.price}}</td>
+              <td class="text-center p-3 text-gray-700">{{item.product.discount}}%</td>
+              <td class="text-center p-3 text-gray-900 font-bold">{{sellingPrice(item.product)*item.quantity}}</td>
+
+          </tr>
+        <!-- } -->
+        }
+      </tbody>
+  </table>
+</div>
+  }
+

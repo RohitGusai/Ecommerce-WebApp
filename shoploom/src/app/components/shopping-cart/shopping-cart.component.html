@@ -1,0 +1,121 @@
+<div class="container mx-auto p-6">
+  @if(orderPage == 0)
+  {
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Shopping Cart</h1>
+
+  <!-- Cart Items Section -->
+  <div class="bg-white p-6 rounded-lg shadow-md">
+      <table class="w-full border-collapse">
+          <thead>
+              <tr class="bg-gray-200">
+                  <th class="text-left p-3">Product</th>
+                  <th class="text-center p-3">Quantity</th>
+                  <th class="text-center p-3">Price</th>
+                  <th class="text-center p-3">Discount</th>
+                  <th class="text-center p-3">Total</th>
+                  <th class="text-center p-3">Remove</th>
+              </tr>
+          </thead>
+          <tbody>
+              <!-- Sample Cart Item -->
+               @for (item of cart; track $index) {
+              <tr class="border-b">
+                  <td class="flex items-center gap-3 p-3">
+                      <img [src]="item.product.images[0]" class="w-16 h-16 object-cover rounded-lg">
+                      <span class="text-gray-700 font-medium">{{item.product.name}}</span>
+                  </td>
+                  <td class="text-center p-3">
+                    <button (click)="increase(item.product._id!, -1)"  [disabled]="item.quantity <= 1"
+                    class="cursor-pointer gap-2 bg-gray-200 text-gray-700 px-2 py-1 rounded-md hover:bg-green-300"
+
+                  >−</button>
+
+                  <span class="text-lg font-semibold">{{ item.quantity }}</span>
+
+                  <button (click)="increase(item.product._id!,1)"
+                    class="cursor-pointer gap-2 bg-gray-200 text-gray-700 px-2 py-1 rounded-md hover:bg-green-300"
+
+                  >+</button>
+                  </td>
+                  <td class="text-center p-3 text-gray-700">{{item.product.price}}</td>
+                  <td class="text-center p-3 text-gray-700">{{item.product.discount}}%</td>
+                  <td class="text-center p-3 text-gray-900 font-bold">{{sellingPrice(item.product)*item.quantity}}</td>
+                  <td class="text-center p-3">
+                      <button class="text-red-500 cursor-pointer hover:text-red-700" (click)="deleteitem(item.product._id!)" >
+                          ✖
+                      </button>
+                  </td>
+              </tr>
+            }
+          </tbody>
+      </table>
+  </div>
+
+  <!-- Cart Summary Section -->
+  <div class="mt-6 flex justify-end">
+      <div class="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800">Cart Summary</h2>
+          <!-- <div class="flex justify-between text-gray-700">
+              <span>Subtotal:</span>
+              <span>₹500</span>
+          </div>
+          <div class="flex justify-between text-gray-700 mt-2">
+              <span>Tax (10%):</span>
+              <span>₹50</span>
+          </div> -->
+          <div class="flex justify-between text-gray-900 font-bold mt-4 text-lg">
+              <span>Total:</span>
+              <span>₹{{totalAmount}}</span>
+          </div>
+          <button (click)="checkOut()" class="cursor-pointer w-full mt-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition">
+              Proceed to Checkout
+          </button>
+      </div>
+  </div>
+}
+@else if(orderPage == 1)
+{
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Address Page</h1>
+  <form [formGroup]="addressForm" (ngSubmit)="continue()">
+    <div class="mb-4">
+        <label class="block text-gray-700 font-medium">Street Address</label>
+        <input type="text" formControlName="address" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="123 Main St">
+    </div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="block text-gray-700 font-medium">City</label>
+            <input type="text" formControlName="city" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="New York">
+        </div>
+        <div>
+            <label class="block text-gray-700 font-medium">State</label>
+            <input type="text" formControlName="state" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="NY">
+        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+            <label class="block text-gray-700 font-medium">ZIP Code</label>
+            <input type="text" formControlName="zip" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="10001">
+        </div>
+        <!-- <div>
+            <label class="block text-gray-700 font-medium">Country</label>
+            <select class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>United States</option>
+                <option>Canada</option>
+                <option>United Kingdom</option>
+                <option>Australia</option>
+                <option>India</option>
+            </select>
+        </div> -->
+    </div>
+    <button type="submit"  [disabled]="addressForm.invalid" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Submit</button>
+</form>
+}
+@else if(orderPage == 2)
+{
+  <mat-radio-group aria-label="Select an option" [(ngModel)]="paymentType">
+    <mat-radio-button class="text-black" value="Cash">Cash</mat-radio-button>
+    <mat-radio-button value="Online">Online</mat-radio-button>
+  </mat-radio-group>
+  <button type="submit" (click)="completeOrder()" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Submit</button>
+}
+</div>

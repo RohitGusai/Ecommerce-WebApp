@@ -1,0 +1,121 @@
+<div class="max-w-6xl mx-auto p-6">
+  <!-- Product Section -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-6 rounded-lg shadow-lg">
+
+      <!-- Image Gallery -->
+      <div>
+          <img id="mainImage" [src]="imagesUrl" alt="Product Image" class="w-full rounded-lg">
+          <div class="flex gap-4 mt-4">
+          @for (item of productsdetail.images; track $index)
+          {
+              <img  [src]="item" (click)="imagechange(item)" class="w-20 h-20 rounded-lg cursor-pointer border border-gray-300 hover:border-blue-500">
+          }
+      </div>
+      </div>
+
+      <!-- Product Details -->
+      <div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-800">{{productsdetail.name}}</h2>
+        </div>
+
+          <div class="flex flex-wrap gap-4 items-center mt-2">
+            <!-- Wishlist Button -->
+            <button mat-fab color="warn" (click)="addToWishlist()"
+                class="w-10 h-10 flex items-center justify-center rounded-full shadow-md">
+              @if(inWishlist()) {
+                <mat-icon>favorite</mat-icon>
+              } @else {
+                <mat-icon>favorite_border</mat-icon>
+              }
+            </button>
+
+            <!-- Add to Cart Button -->
+            <button (click)="addToCart()" class="mt-4 w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300">
+              @if(isInCart())
+              {
+                <mat-icon class="mat-18">remove_shopping_cart</mat-icon>
+              }
+              @else{
+                <mat-icon>shopping_cart</mat-icon>
+              }
+
+            </button>
+        </div>
+          <p class="text-gray-600 mt-2">{{productsdetail.shortDescription}}</p>
+          <div  class="flex flex-wrap gap-4">
+            <p class="text-2xl font-medium text-black-500 mt-4">₹{{sellingPrice}}</p>
+            <p class="text-2xl font-light text-gray-400 mt-4"> <s>₹{{productsdetail.price}}</s></p>
+            <p class="text-2xl font-normal text-green-600 mt-4">{{productsdetail.discount}}% off</p>
+
+          </div>
+
+
+          <div class="mt-4">
+              <label class="block text-gray-700 font-medium">Select Size:</label>
+              <select class="mt-2 px-4 py-2 border rounded-lg w-full">
+                  <option>Small</option>
+                  <option>Medium</option>
+                  <option>Large</option>
+              </select>
+          </div>
+
+         
+      </div>
+
+  </div>
+
+
+
+  <!-- Product Description -->
+  <div class="bg-white p-6 rounded-lg shadow-lg mt-6">
+      <h3 class="text-2xl font-bold text-gray-800">Product Description</h3>
+      <p class="text-gray-600 mt-2">{{productsdetail.description}}</p>
+  </div>
+
+    <!--Similar Product-->
+    <h2 class="font-medium text-2xl mt-6 mb-6">Similar Products</h2>
+    <div class="flex flex-wrap gap-6 justify-center">
+
+      <div *ngFor="let item of similarProduct; let i = index"
+           class="max-w-sm w-full md:w-1/3 lg:w-1/4 rounded-2xl overflow-hidden shadow-lg bg-white">
+
+           <app-product-card [item] = "item"></app-product-card>
+
+      </div>
+    </div>
+
+  <!-- Customer Reviews -->
+  <div class="bg-white p-6 rounded-lg shadow-lg mt-6">
+      <h3 class="text-2xl font-bold text-gray-800">Customer Reviews</h3>
+
+      <!-- Review 1 -->
+      <div class="mt-4 border-b pb-4">
+          <p class="text-lg font-semibold">John Doe</p>
+          <p class="text-yellow-400">★★★★★</p>
+          <p class="text-gray-600">Great product! Highly recommended.</p>
+      </div>
+
+      <!-- Review 2 -->
+      <div class="mt-4 border-b pb-4">
+          <p class="text-lg font-semibold">Jane Smith</p>
+          <p class="text-yellow-400">★★★★☆</p>
+          <p class="text-gray-600">Good quality, but took some time to deliver.</p>
+      </div>
+
+      <!-- Add a Review -->
+      <div class="mt-6">
+          <h4 class="text-lg font-semibold">Leave a Review:</h4>
+          <textarea class="w-full mt-2 p-3 border rounded-lg" placeholder="Write your review here..."></textarea>
+          <button class="mt-4 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+              Submit Review
+          </button>
+      </div>
+  </div>
+</div>
+
+<script>
+  function changeImage(imgElement) {
+      document.getElementById('mainImage').src = imgElement.src;
+  }
+</script>

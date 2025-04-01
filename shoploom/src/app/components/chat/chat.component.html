@@ -1,0 +1,14 @@
+<div class="p-4 border rounded-lg shadow-lg bg-white">
+  <h2 class="text-lg font-bold">Live Chat</h2>
+
+  <!-- Chat Messages -->
+  <div class="h-40 overflow-y-auto border p-2">
+    <p *ngFor="let msg of messages">{{ msg }}</p>
+  </div>
+
+  <!-- Message Input & Send Button -->
+  <div class="flex gap-2 mt-2">
+    <input [(ngModel)]="newMessage" placeholder="Type a message..." class="border p-2 flex-1">
+    <button (click)="sendMessage()" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Send</button>
+  </div>
+</div>

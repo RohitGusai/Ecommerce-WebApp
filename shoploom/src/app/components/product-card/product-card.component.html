@@ -1,0 +1,44 @@
+<div  class="cursor-pointer w-full max-w-xs bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105">
+  <!-- Product Image -->
+  <img [routerLink]="'/products/'+ item._id" class="w-full h-48 object-cover" [src]="item.images[0]" [alt]="item.name">
+
+  <!-- Product Details -->
+  <div class="p-4">
+      <h2 class="text-lg font-bold text-gray-800 truncate">{{ item.name }}</h2>
+      <p class="text-gray-600 mt-2 text-sm truncate">{{ item.shortDescription }}</p>
+
+      <!-- Price Section -->
+      <div class="mt-4 flex justify-between items-center">
+          <div class="flex gap-3">
+              <p class="text-xl font-semibold text-black">₹{{ sellingPrice }}</p>
+              <p class="text-lg text-gray-400 line-through">₹{{ item.price }}</p>
+              <p class="text-lg font-medium text-green-600">{{ item.discount }}% off</p>
+          </div>
+      </div>
+
+      <!-- Add to Cart Button -->
+       <button mat-fab color="warn" (click)="addToWishlist()">
+        @if(inWishlist())
+        {
+          <mat-icon>favorite</mat-icon>
+        }
+        @else {
+          <mat-icon>favorite_border</mat-icon>
+        }
+
+       </button>
+
+      <button (click)="addToCart()" class="mt-4 w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300">
+        @if(isInCart())
+        {
+          <mat-icon class="mat-18">remove_shopping_cart</mat-icon>
+        }
+        @else{
+          <mat-icon>shopping_cart</mat-icon>
+        }
+
+
+
+      </button>
+  </div>
+</div>
