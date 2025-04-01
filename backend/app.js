@@ -26,7 +26,7 @@ const port = 3000
 const socketPort = 4000;
 
 io.on('connection',(socket)=>{
-  console.log(`User connected: ${socket.id}`);
+  console.log(`let User connected: ${socket.id}`);
 
   socket.on("joinChatRoom",(room)=>{
     socket.join(room);
